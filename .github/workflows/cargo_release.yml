@@ -3,10 +3,10 @@ name: Cargo Release
 on:
   # allows to manually run the job at any time
   workflow_dispatch:
-  
+
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   build:
@@ -17,6 +17,16 @@ jobs:
         with:
           toolchain: stable
           override: true
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: Install Python PyTorch
+        run: |
+          pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+     - name: Set up environment for `tch-rs`
+        run: |
+          echo "LIBTORCH_USE_PYTORCH=1" >> $GITHUB_ENV
       - name: Build release
         run: cargo build --release
       - name: Upload release
