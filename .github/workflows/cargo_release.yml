@@ -1,0 +1,37 @@
+name: Cargo Release
+
+on:
+  # allows to manually run the job at any time
+  workflow_dispatch:
+
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: Install Python PyTorch
+        run: |
+          pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+     - name: Set up environment for `tch-rs`
+        run: |
+          echo "LIBTORCH_USE_PYTORCH=1" >> $GITHUB_ENV
+      - name: Build release
+        run: cargo build --release
+      - name: Upload release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/release/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

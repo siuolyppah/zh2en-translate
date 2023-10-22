@@ -1,6 +1,6 @@
 use std::{
     mem,
-    ops::DerefMut,
+    ops::{Deref, DerefMut},
     path::{Path, PathBuf},
     sync::Mutex,
 };
@@ -21,7 +21,7 @@ use crate::net;
 
 macro_rules! resource_local_path {
     ($file:expr) => {
-        format!("{}/{}", RESOURCE_PATH, $file)
+        format!("{}/{}", RESOURCE_PATH.deref(), $file)
     };
 }
 
