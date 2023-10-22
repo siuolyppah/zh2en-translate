@@ -1,3 +1,1 @@
-# TODO
-
-- [ ] fix: request utf8 string can't be parsed correctly.
+The backend of the [`zh2en.nvim`](https://github.com/siuolyppah/zh2en.nvim) project, communicate with `neovim` based on the `msgpack-rpc` protocol, translate Chinese sentences into English and return.
