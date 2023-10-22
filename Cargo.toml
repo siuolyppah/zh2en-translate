@@ -1,0 +1,17 @@
+[package]
+name = "zh2en-translate"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rust-bert = { version = "0.21.0" }
+anyhow = "1.0.75"
+tch = "0.13.0"
+
+chrono = "0.4"
+rmpv = "1.0.1"
+
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1", features = ["full"] }
