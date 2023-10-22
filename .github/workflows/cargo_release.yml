@@ -17,16 +17,15 @@ jobs:
         with:
           toolchain: stable
           override: true
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.x"
-      - name: Install Python PyTorch
+      - name: Download libtorch Zip
         run: |
-          pip3 install torch==2.0.0+cu118 torchvision==0.15.1+cu118 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+          curl -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.0%2Bcu118.zip
+      - name: Unzip libtorch
+        run: |
+          unzip libtorch.zip
       - name: Set up environment for `tch-rs`
         run: |
-          echo "LIBTORCH_USE_PYTORCH=1" >> $GITHUB_ENV
+          echo "LIBTORCH=${{ github.workspace }}/libtorch" >> $GITHUB_ENV
       - name: Build release
         run: cargo build --release
       - name: Upload release
